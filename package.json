@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/taion/scroll-behavior#readme",
   "dependencies": {
+    "bowser": "^1.9.1",
     "dom-helpers": "^3.2.1",
     "invariant": "^2.2.2"
   },

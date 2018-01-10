@@ -6,6 +6,7 @@ import scrollLeft from 'dom-helpers/query/scrollLeft';
 import scrollTop from 'dom-helpers/query/scrollTop';
 import requestAnimationFrame from 'dom-helpers/util/requestAnimationFrame';
 import invariant from 'invariant';
+import bowser from 'bowser';
 
 // Try at most this many times to scroll, to avoid getting stuck.
 const MAX_SCROLL_ATTEMPTS = 2;
@@ -23,8 +24,10 @@ export default class ScrollBehavior {
 
     // This helps avoid some jankiness in fighting against the browser's
     // default scroll behavior on `POP` transitions.
+    // Avoid setting scrollRestoration to 'manual' if os is ios11.
+    // see: https://stackoverflow.com/questions/47792759/scrollrestoration-set-to-manual-and-swipe-back-functionality-on-safari-ios
     /* istanbul ignore else: Travis browsers all support this */
-    if ('scrollRestoration' in window.history) {
+    if ('scrollRestoration' in window.history && !(bowser.ios && bowser.compareVersions([bowser.version, '11']) >= 0)) {
       this._oldScrollRestoration = window.history.scrollRestoration;
       window.history.scrollRestoration = 'manual';
     } else {
